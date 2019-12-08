@@ -7,7 +7,7 @@ headers = {'accept': '*/*',
 base_url = 'https://www.wildberries.ru/catalog/premium/muzhchinam?bid=a0d12ae7-2152-4c1b-a4fd-1cfaed91984a'
 
 
-def lm_parse(base_url, headers):
+def wb_parse(base_url, headers):
     items = []
     session = requests.Session()
     request = session.get(base_url, headers=headers)
