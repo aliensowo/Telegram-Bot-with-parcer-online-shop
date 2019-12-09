@@ -1,6 +1,5 @@
-import telebot
 from telebot import types
-from parser_asos import s_parse
+from parser_shops.parser_asos import s_parse
 
 
 def keyboard_callback():

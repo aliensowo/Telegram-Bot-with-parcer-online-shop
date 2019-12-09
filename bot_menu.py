@@ -1,40 +1,26 @@
-import telebot
-from telebot import types
-from telebot import apihelper
-import keyboards
-import config
-from parser_asos import s_parse, base_url_s, header
+from aiogram import Bot, types
+from aiogram.dispatcher import Dispatcher
+from config import TOKEN
 
-bot = telebot.TeleBot(config.TOKEN)
+bot = Bot(token=TOKEN)
+dp = Dispatcher(bot)
+
 #apihelper.proxy = {'https':config.PROXY}
 
 # test commit for
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    bot.send_message(message.chat.id, 'Привет, я проведу тебе маленький гайд по миру скидок!',
-                     reply_markup=keyboards.keyboard_main())
+@dp.message_handler(commands=['start'])
+async def process_start_command(message: types.Message):
+    await message.reply("Привет!\nДавай я тебе покажу мир скидок!")
 
 
-@bot.message_handler(commands=['help'])
-def help_message(message):
-    bot.send_message(message.chat.id, 'Look at bot keyboard, doode!', reply_markup=keyboards.keyboard_main())
+@dp.message_handler(commands=['help'])
+async def process_help_command(message: types.Message):
+    await message.reply("Напиши команду ""/help""")
 
 
-@bot.message_handler(commands=['asos'])
-def asos_parser(message):
-    bot.send_message(message.chat.id, s_parse(base_url_s, header), reply_markup=keyboards.keyboard_main())
-
-
-@bot.message_handler(content_types=['text'])
-def main_branch(message):
-    chat_id = message.chat.id
-    # to main
-    if message.text == 'Назад':
-        bot.send_message(chat_id, 'Смотри какие магазины открыты для просмотра!', reply_markup=keyboards.keyboard_main())
-
-    # main menu
-    elif message.text == 'Обратная связь':
-        bot.send_message(chat_id, 'Отложим дела и поговорим?', reply_markup=keyboards.keyboard_callback())
+@dp.message_handler()
+async def echo_message(msg: types.Message):
+    await bot.send_message(msg.from_user.id, msg.text)
 
 
 if __name__ == "__main__":
