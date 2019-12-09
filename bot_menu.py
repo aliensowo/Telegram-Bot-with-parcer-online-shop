@@ -3,6 +3,7 @@ from telebot import types
 from telebot import apihelper
 import keyboards
 import config
+from parser_asos import s_parse, base_url_s, header
 
 bot = telebot.TeleBot(config.TOKEN)
 #apihelper.proxy = {'https':config.PROXY}
@@ -21,7 +22,7 @@ def help_message(message):
 
 @bot.message_handler(commands=['asos'])
 def asos_parser(message):
-    bot.send_message(message.chat.id, 'asos', reply_markup=keyboards.keyboard_asos())
+    bot.send_message(message.chat.id, s_parse(base_url_s, header), reply_markup=keyboards.keyboard_main())
 
 
 @bot.message_handler(content_types=['text'])
