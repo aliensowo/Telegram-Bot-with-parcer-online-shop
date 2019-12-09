@@ -19,6 +19,10 @@ def help_message(message):
     bot.send_message(message.chat.id, 'Look at bot keyboard, doode!', reply_markup=keyboards.keyboard_main())
 
 
+@bot.message_handler(commands=['asos'])
+def asos_parser(message):
+    bot.send_message(message.chat.id, 'asos', reply_markup=keyboards.keyboard_asos())
+
 
 @bot.message_handler(content_types=['text'])
 def main_branch(message):

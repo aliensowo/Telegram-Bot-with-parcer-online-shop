@@ -1,5 +1,6 @@
 import telebot
 from telebot import types
+from parser_asos import s_parse
 
 
 def keyboard_callback():
@@ -26,3 +27,12 @@ def keyboard_main():
 
     return markup
 
+
+def keyboard_asos():
+    markup = types.InlineKeyboardMarkup()
+
+    btn1 = types.InlineKeyboardButton('ASOS', callback_data=s_parse())
+
+    markup.add(btn1)
+
+    return markup
