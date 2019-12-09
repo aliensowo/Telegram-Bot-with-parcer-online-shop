@@ -1,14 +1,15 @@
 import requests
+import csv
 from bs4 import BeautifulSoup as BS
 
 header = {'accept': '*/*',
            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0'}
 
 base_url_s = 'https://www.asos.com/ru/men/ctas/aktsiya-8/cat/?cid=28240&ctaref=shop|50offparty|mw_hp_50&page=1'
-
+items = []
 
 def s_parse(base_url_s, header):
-    items = []
+
     session = requests.Session()
     request = session.get(base_url_s, headers=header)
     if request.status_code == 200:
@@ -34,6 +35,17 @@ def s_parse(base_url_s, header):
 
     else:
         print('ERROR')
+    return items
 
+
+def file_writer(items):
+    with open('parser_items.csv', 'a',  encoding='utf-8') as file:
+        a_pen = csv.writer(file)
+        a_pen.writerow(('Название', 'Старая цена', 'Новая цена'))
+        for item in items:
+            a_pen.writerow((item['title'], item['new price'], item['old prise and sale']))
 
 s_parse(base_url_s,header)
+
+
+file_writer(items)
